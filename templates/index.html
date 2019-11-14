@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <title>Calculation Game</title>
+        <link rel="icon" href="{{url_for('static', filename='icon.png')}}" type="image/x-icon" />
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        
+        $(document).ready(function(){
+            document.getElementById("wannaTryAgain").style.display = "none"
+
+            $("#submitButton").bind('click', function(){
+                
+                $.ajax({
+                    url:"/background_process",
+                    data: {guess: $("#guess").val()},
+                    type: ("GET","POST")
+                })
+                 
+                .done(function(data){
+                    $("#responseArea").text(data.result)
+                    document.getElementById("wannaTryAgain").style.display = "block"
+
+                });
+                return false;
+            });
+
+            $("#tryAgain").bind('click', function(){
+                
+                 $.ajax({
+                     url:"/update",
+                     method: ("GET", "POST")
+                 })
+                 .done(function(data){      
+                    $("#mathPrompt").fadeOut(1000, function(){
+                            document.getElementById("num1").innerHTML = data.num1
+                            document.getElementById("num2").innerHTML = data.num2  
+                            $("#mathPrompt").fadeIn();
+                            $("#guess").val("")
+                            document.getElementById("responseArea").innerHTML = ""
+                            document.getElementById("wannaTryAgain").style.display = "None"                            
+                    });                         
+                });                    
+            });
+        });        
+        </script>
+
+    </head>
+    <body>
+        <h2>Multiplication Game</h2>
+        <div id="mathPrompt">What is <span id="num1">{{num1}}</span> multiplied by <span id="num2">{{num2}}</span>?</div>
+        <div>
+            <form id="form">
+                <input type="text" id="guess" value="">
+                <a href="#" id="submitButton"><button type="submit" >Submit</button></a>
+            </form>
+        </div>
+        <div id="responseArea" ></div>
+        
+        <div id="wannaTryAgain">
+            <p>Wanna try again?</p>
+            <input type="button" value="Click Here" id="tryAgain">
+        </div>     
+    </body>
+</html>

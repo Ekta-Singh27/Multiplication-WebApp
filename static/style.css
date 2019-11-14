@@ -1,0 +1,21 @@
+h2 {
+    color: blue;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: blue;
+}
+div {
+    font: outline;
+    font-size: 42;
+    color: crimson;
+    text-align: center;
+}
+
+span {
+    font-weight: bold;
+}
+
+
+body {
+    background-color: skyblue;
+}
